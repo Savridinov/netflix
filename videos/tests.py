@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.utils.text import slugify
-
 from .models import Video
+from netflix.db.models import PublishStateOptions
 
 
 class VideoModelTestCase(TestCase):
     def setUp(self) -> None:
         self.vid1 = Video.objects.create(title='Test title', video_id='1')
-        self.vid2 = Video.objects.create(title='Test title', video_id='2', state=Video.VideoStateOptions.PUBLISH)
+        self.vid2 = Video.objects.create(title='Test title', video_id='2', state=PublishStateOptions.PUBLISH)
 
     def test_created_count(self):
         qs = Video.objects.all()
@@ -22,17 +22,17 @@ class VideoModelTestCase(TestCase):
         self.assertTrue(qs.exists())
 
     def test_draft_case(self):
-        qs = Video.objects.filter(state=Video.VideoStateOptions.DRAFT)
+        qs = Video.objects.filter(state=PublishStateOptions.DRAFT)
 
         self.assertEqual(qs.count(), 1)
 
     def test_publish_case(self):
-        qs = Video.objects.filter(state=Video.VideoStateOptions.PUBLISH)
+        qs = Video.objects.filter(state=PublishStateOptions.PUBLISH)
 
         self.assertEqual(qs.count(), 1)
 
     def test_timestamp(self):
-        qs = Video.objects.filter(state=Video.VideoStateOptions.PUBLISH)
+        qs = Video.objects.filter(state=PublishStateOptions.PUBLISH)
         now = timezone.now()
         timestamps_qs = Video.objects.filter(puplish_timestamp__lte=now)
 
