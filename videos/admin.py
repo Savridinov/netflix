@@ -3,9 +3,10 @@ from .models import *
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ['title', 'video_id', 'is_published']
-    list_filter = ['active']
+    list_display = ['title', 'video_id', 'state', 'is_published']
+    list_filter = ['active', 'state']
     search_fields = ['title']
+    readonly_fields = ['id', 'puplish_timestamp']
 
     class Meta:
         model = Video
