@@ -13,7 +13,6 @@ def publish_state_pre_save(sender, instance, *args, **kwargs):
     is_published = instance.state == PublishStateOptions.PUBLISH
     is_draft = instance.state == PublishStateOptions.DRAFT
     if is_published and instance.puplish_timestamp is None:
-        print('Save as timestamp for published')
         instance.puplish_timestamp = timezone.now()
     elif is_draft:
         instance.puplish_timestamp = None
